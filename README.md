@@ -154,5 +154,3 @@ The language models and embedding models are downloaded from Hugging Face when n
 
 
 
-AI Engineering Student | Algeria
-
