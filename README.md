@@ -69,10 +69,6 @@ The basic implementation focuses on the essential components of a RAG system.
 
 **Language model:** `Qwen/Qwen2.5-3B-Instruct`
 
-### 📸 Basic RAG — Interface Demonstration
-
-![Basic RAG Demonstration](assets/basic-rag-demo.png)
-
 ---
 
 ## 🔵 4. Advanced RAG Implementation
@@ -97,7 +93,13 @@ The advanced implementation introduces additional retrieval and document-process
 
 **Language model:** `Qwen/Qwen2.5-3B-Instruct`
 
-### 📸 Advanced RAG — Interface Demonstration
+## 📸 6. System Demonstration
+
+The following examples demonstrate the Advanced RAG implementation
+answering questions using the uploaded Deep Learning course materials.
+
+The system retrieves relevant passages from the documents and
+uses them to generate context-aware answers.
 
 ![Advanced RAG Demonstration](assets/advanced-rag-demo.png)
 
