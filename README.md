@@ -1,156 +1,242 @@
-\# RAG Implementations: Basic \& Advanced
+# 📚 RAG Implementations — Basic & Advanced
 
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
+![Hugging Face](https://img.shields.io/badge/Models-Hugging%20Face-yellow?logo=huggingface)
+![FAISS](https://img.shields.io/badge/Vector%20Search-FAISS-green)
+![Gradio](https://img.shields.io/badge/Interface-Gradio-orange?logo=gradio)
+![Status](https://img.shields.io/badge/Status-Completed-success)
 
+A practical implementation of **Retrieval-Augmented Generation (RAG)**, exploring two approaches to building PDF-based question-answering systems: a basic retrieval pipeline and an advanced hybrid retrieval pipeline.
 
-Two implementations of a Retrieval-Augmented Generation (RAG) system developed as part of the \*\*Séminaire et Workshop\*\* university module.
+The project demonstrates how document processing, semantic search, information retrieval, reranking, and Large Language Models (LLMs) can work together to generate context-aware answers from user-provided documents.
 
+---
 
+## 🎯 1. Project Overview
 
-This project explores the evolution of document-based question answering, starting with a simple dense retrieval pipeline and progressing toward an advanced hybrid retrieval architecture.
+Large Language Models can generate impressive responses, but they may produce inaccurate information or lack access to specific documents.
 
+**Retrieval-Augmented Generation (RAG)** addresses this limitation by retrieving relevant information from an external knowledge source and providing it as context to an LLM before generating an answer.
 
+This project explores two implementations:
 
-\## Project Structure
+- 🟢 **Basic RAG:** A straightforward pipeline based on PDF extraction, text chunking, dense embeddings, and FAISS similarity search.
+- 🔵 **Advanced RAG:** An enhanced pipeline combining layout-aware document processing, hybrid retrieval, Reciprocal Rank Fusion, query rewriting, and cross-encoder reranking.
 
+Both implementations use Qwen2.5-3B-Instruct for answer generation.
 
+## 🏗️ 2. System Architecture
 
-```text
+The two implementations follow the same general RAG workflow, with different approaches to document processing and retrieval.
 
-Rag-Implementations/
+### 🟢 Basic RAG Pipeline
 
-├── Basic-Rag/
+1. 📄 **Document Loading:** Extract text from PDF documents using PyMuPDF.
+2. ✂️ **Text Chunking:** Divide extracted text into smaller, manageable chunks.
+3. 🧠 **Embedding Generation:** Convert chunks into vector representations using Sentence Transformers.
+4. 🔎 **Vector Retrieval:** Use FAISS to retrieve semantically relevant chunks.
+5. 🤖 **Answer Generation:** Provide the retrieved context to Qwen2.5-3B-Instruct to generate an answer.
+6. 💬 **User Interface:** Interact with the system through a Gradio interface.
 
-│   └── Basic\_RAG.ipynb
+### 🔵 Advanced RAG Pipeline
 
-├── Advanced-Rag/
+1. 📄 **Document Processing:** Extract structured content using PyMuPDF4LLM, with Tesseract OCR as a fallback for image-based content.
+2. ✂️ **Intelligent Chunking:** Apply heading-aware chunking to preserve document structure.
+3. 🧠 **Embedding Generation:** Generate embeddings using BAAI/bge-base-en-v1.5.
+4. 🔍 **Hybrid Retrieval:** Combine dense vector retrieval through FAISS with keyword-based retrieval using BM25.
+5. 🔀 **Reciprocal Rank Fusion:** Combine retrieval rankings into a unified result list.
+6. 🎯 **Reranking:** Use BAAI/bge-reranker-base to improve the relevance of retrieved passages.
+7. 🔄 **Query Rewriting:** Use Qwen2.5-3B-Instruct to reformulate queries when needed.
+8. 🤖 **Answer Generation:** Generate context-aware answers using the retrieved information.
+9. 📊 **Evaluation:** Include an evaluation component with sample questions and retrieval/answer assessment metrics.
+10. 💬 **User Interface:** Provide an interactive Gradio interface.
 
-│   └── Advanced\_RAG.ipynb
+---
 
-├── requirements-basic.txt
+## 🟢 3. Basic RAG Implementation
 
-├── requirements-advanced.txt
+The basic implementation focuses on the essential components of a RAG system.
 
-├── README.md
+**Main components:**
+- PDF text extraction with PyMuPDF.
+- Fixed-size text chunking.
+- Multilingual MiniLM embeddings.
+- FAISS dense vector retrieval.
+- Qwen2.5-3B-Instruct for answer generation.
+- Gradio interface.
 
-└── .gitignore
+**Embedding model:** `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`
 
-```
+**Language model:** `Qwen/Qwen2.5-3B-Instruct`
 
+### 📸 Basic RAG — Interface Demonstration
 
+![Basic RAG Demonstration](assets/basic-rag-demo.png)
 
-\## Implementations
+---
 
+## 🔵 4. Advanced RAG Implementation
 
+The advanced implementation introduces additional retrieval and document-processing techniques to improve the quality and relevance of retrieved context.
 
-\### 1. Basic RAG
+**Main components:**
+- Layout-aware PDF extraction with PyMuPDF4LLM.
+- OCR fallback using Tesseract.
+- Heading-aware text chunking.
+- BGE embeddings.
+- Hybrid retrieval using FAISS and BM25.
+- Reciprocal Rank Fusion (RRF).
+- Cross-encoder reranking.
+- Query rewriting.
+- Evaluation metrics.
+- Gradio interface.
 
+**Embedding model:** `BAAI/bge-base-en-v1.5`
 
+**Reranker model:** `BAAI/bge-reranker-base`
 
-A fundamental RAG pipeline designed to answer questions using a collection of academic PDF documents.
+**Language model:** `Qwen/Qwen2.5-3B-Instruct`
 
+### 📸 Advanced RAG — Interface Demonstration
 
+![Advanced RAG Demonstration](assets/advanced-rag-demo.png)
 
-\*\*Main components:\*\*
+---
 
-\- PDF text extraction using PyMuPDF.
+## 📚 5. Knowledge Base & Demonstration Dataset
 
-\- Fixed-size overlapping text chunking.
+Both implementations are designed to work with user-provided PDF documents and are not restricted to a particular subject or domain.
 
-\- Multilingual embeddings using Sentence Transformers.
+For demonstration and testing purposes, **Deep Learning course materials** were used as the knowledge base.
 
-\- Dense vector retrieval using FAISS.
+The documents cover several topics, including:
 
-\- Answer generation using Qwen2.5-3B-Instruct.
+- 🧠 Artificial Neural Networks (ANNs).
+- 🖼️ Convolutional Neural Networks (CNNs).
+- ⚡ Activation Functions.
+- 🔄 Forward and Backward Propagation.
+- 📉 Loss Functions.
+- 🔁 Recurrent Neural Networks (RNNs, LSTMs, and GRUs).
+- 🧩 Variational Autoencoders (VAEs).
 
-\- Interactive question-answering interface using Gradio.
+The systems retrieve relevant passages from these documents and use them to generate context-aware answers.
 
+The knowledge base can be replaced with other PDF documents, allowing the same RAG architecture to be applied to different subjects and domains.
 
+---
 
-\### 2. Advanced RAG
+## 🛠️ 6. Technologies & Dependencies
 
+| Technology | Purpose |
+|---|---|
+| Python | Main programming language |
+| PyMuPDF | PDF text extraction |
+| PyMuPDF4LLM | Layout-aware PDF processing |
+| Tesseract OCR | Text extraction from images |
+| Sentence Transformers | Text embedding generation |
+| FAISS | Dense vector similarity search |
+| BM25 | Keyword-based retrieval |
+| BGE Cross-Encoder | Retrieved passage reranking |
+| Hugging Face Transformers | Language model loading and inference |
+| Qwen2.5-3B-Instruct | Answer generation and query rewriting |
+| Gradio | Interactive user interface |
+| NumPy & Pandas | Numerical operations and evaluation |
 
+Separate dependency files are provided for each implementation:
 
-An enhanced RAG pipeline introducing more sophisticated document processing and retrieval techniques.
+- `requirements-basic.txt`
+- `requirements-advanced.txt`
 
+**Additional requirements:**
+- PyTorch is required for model inference. Google Colab normally provides it in its runtime.
+- Tesseract OCR must also be installed as a system executable for the Advanced implementation.
+- A GPU runtime is recommended for practical inference with the selected language models.
 
+---
 
-\*\*Main components:\*\*
-
-\- Layout-aware PDF extraction using PyMuPDF4LLM.
-
-\- Tesseract OCR fallback for scanned pages.
-
-\- Heading-aware semantic chunking.
-
-\- Dense retrieval using BGE embeddings and FAISS.
-
-\- Sparse retrieval using BM25.
-
-\- Hybrid retrieval with Reciprocal Rank Fusion (RRF).
-
-\- Cross-Encoder reranking using BGE.
-
-\- Query rewriting using Qwen2.5-3B-Instruct.
-
-\- Retrieval evaluation using Precision@K, Recall@K, MRR and Hit@K.
-
-\- Interactive Gradio interface.
-
-
-
-\## Technologies
-
-
-
-Python, PyTorch, Hugging Face Transformers, Sentence Transformers, FAISS, BM25, PyMuPDF, Tesseract OCR, Gradio and Pandas.
-
-
-
-\## Requirements
-
-
-
-Each implementation has its own requirements file:
-
-
-
-\- `requirements-basic.txt`
-
-\- `requirements-advanced.txt`
-
-
-
-The advanced implementation additionally requires the Tesseract OCR system executable.
-
-
-
-\## Running the Notebooks
-
-
+## 🚀 7. How to Run
 
 The notebooks are designed to run in Google Colab.
 
+### Step 1 — Clone or download the repository
 
+Clone the repository:
 
-1\. Open the desired notebook in Google Colab.
+```bash
+git clone https://github.com/goussasmohamedelhocine-bot/RAG-Implementations.git
+```
 
-2\. Select a GPU runtime for accelerated model inference.
+Alternatively, download the repository as a ZIP file from GitHub.
 
-3\. Upload your PDF documents to the expected `/content/documents` directory.
+### Step 2 — Open a notebook
 
-4\. Execute the notebook cells in order.
+Choose one of the following:
 
+- `Basic-Rag/Basic_RAG.ipynb`
+- `Advanced-Rag/Advanced_RAG.ipynb`
 
+Upload the selected notebook to Google Colab or open it directly from your downloaded files.
 
-The language models and embedding models are downloaded from Hugging Face when needed.
+### Step 3 — Configure the runtime
 
+In Google Colab:
 
+1. Open **Runtime**.
+2. Select **Change runtime type**.
+3. Choose a GPU accelerator if available.
 
-\## Author
+### Step 4 — Provide PDF documents
 
+Upload your PDF files to the directory expected by the notebook.
 
+For the default configuration, the document directory is:
 
-\*\*Mohamed El Hocine Goussas\*\*
+```text
+/content/documents/
+```
 
+### Step 5 — Execute the notebook
 
+Run the notebook cells in order.
 
+The notebooks install their required Python packages, process the documents, generate embeddings, build the retrieval components, and load the language model.
+
+### Step 6 — Interact with the system
+
+Launch the Gradio interface, upload or select your documents as configured, and ask questions about their content.
+
+---
+
+## 📁 8. Repository Structure
+
+```text
+RAG-Implementations/
+│
+├── Basic-Rag/
+│   └── Basic_RAG.ipynb
+│
+├── Advanced-Rag/
+│   └── Advanced_RAG.ipynb
+│
+├── requirements-basic.txt
+├── requirements-advanced.txt
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 👨‍💻 9. Author
+
+**Mohamed El Hocine Goussas**
+
+AI Engineering Student | Algeria
+
+- GitHub: [@goussasmohamedelhocine-bot](https://github.com/goussasmohamedelhocine-bot)
+- LinkedIn: [Mohamed El Hocine Goussas](https://www.linkedin.com/in/goussas-mohamed-el-hocine-71b4153a0/)
+
+---
+
+⭐ If you find this project useful, feel free to explore the implementations and experiment with your own PDF documents.
+
+**Built as a practical exploration of Retrieval-Augmented Generation and modern information retrieval techniques.**
