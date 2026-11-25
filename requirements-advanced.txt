@@ -1,0 +1,12 @@
+pymupdf
+pymupdf4llm
+pytesseract
+Pillow
+sentence-transformers
+faiss-cpu
+rank-bm25
+transformers
+accelerate
+gradio
+numpy
+pandas
